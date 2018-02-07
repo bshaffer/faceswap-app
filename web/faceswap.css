@@ -1,0 +1,162 @@
+svg {
+    display:block;
+    margin:auto;
+    margin-top:25%;
+}
+.hidden {
+  display:none;
+}
+.tweet {
+  /*float:left;*/
+}
+.error {
+    background-color: #dc3232;
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.image-crop {
+    overflow: hidden;
+    float:left;
+}
+.image-crop img {
+    overflow: hidden;
+    float:left;
+    height: auto;
+    vertical-align: middle;
+    display: inline-block;
+    margin-left:50%;
+    margin-top:50%;
+    -webkit-transform:translateY(-50%) translateX(-50%);
+    transform:translateY(-50%) translateX(-50%);
+}
+.face-image {
+    float:left;
+    width:440px;
+    margin-right: 20px;
+}
+.base-image {
+    float:left;
+    width:440px;
+    margin-top: -24px;
+}
+.result-image {
+    margin-top:40px;
+    width:906px;
+    float:left;
+}
+.home .entry-header {
+    display:none;
+}
+.entry-content {
+    width:100% !important;
+}
+.faceswap-upload-form {
+    clear:left;
+}
+table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+.spinner {
+  -webkit-animation: rotator 1.4s linear infinite;
+          animation: rotator 1.4s linear infinite;
+}
+@-webkit-keyframes rotator {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(270deg);
+            transform: rotate(270deg);
+  }
+}
+
+@keyframes rotator {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(270deg);
+            transform: rotate(270deg);
+  }
+}
+.path {
+  stroke-dasharray: 187;
+  stroke-dashoffset: 0;
+  -webkit-transform-origin: center;
+          transform-origin: center;
+  -webkit-animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
+          animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
+}
+@-webkit-keyframes colors {
+  0% {
+    stroke: #4285F4;
+  }
+  25% {
+    stroke: #DE3E35;
+  }
+  50% {
+    stroke: #F7C223;
+  }
+  75% {
+    stroke: #1B9A59;
+  }
+  100% {
+    stroke: #4285F4;
+  }
+}
+@keyframes colors {
+  0% {
+    stroke: #4285F4;
+  }
+  25% {
+    stroke: #DE3E35;
+  }
+  50% {
+    stroke: #F7C223;
+  }
+  75% {
+    stroke: #1B9A59;
+  }
+  100% {
+    stroke: #4285F4;
+  }
+}
+@-webkit-keyframes dash {
+  0% {
+    stroke-dashoffset: 187;
+  }
+  50% {
+    stroke-dashoffset: 46.75;
+    -webkit-transform: rotate(135deg);
+            transform: rotate(135deg);
+  }
+  100% {
+    stroke-dashoffset: 187;
+    -webkit-transform: rotate(450deg);
+            transform: rotate(450deg);
+  }
+}
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 187;
+  }
+  50% {
+    stroke-dashoffset: 46.75;
+    -webkit-transform: rotate(135deg);
+            transform: rotate(135deg);
+  }
+  100% {
+    stroke-dashoffset: 187;
+    -webkit-transform: rotate(450deg);
+            transform: rotate(450deg);
+  }
+}
