@@ -68,8 +68,8 @@ COPY . /app
 WORKDIR /app
 
 RUN pip install -r requirements.txt
-EXPOSE 8080
-ENV PORT 8080
+EXPOSE 8081
+ENV PORT 8081
 
-ENTRYPOINT ["gunicorn", "-b", ":8080", "main:app"]
+ENTRYPOINT ["gunicorn", "-b", ":8081", "main:app"]
 CMD []

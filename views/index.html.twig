@@ -1,34 +1,52 @@
-<html>
-<head>
-    <title>Faceswap</title>
-</head>
-<body>
+{% extends 'base.html.twig' %}
+
+{% block content %}
 
 {% if error is defined and error %}
     <div class="error">{{ error }}</div>
 {% endif %}
 
-<div class="uploaded-images">
-    <div class="face-image">
-        <img src="data:image/jpeg;base64, {{ faceImage }}" />
+{% if faceImage is defined and baseImage is defined and resultImage is defined %}
+<div class="row">
+    <div class="uploaded-images">
+        <div class="col col-md-3">
+            <img src="data:image/jpeg;base64, {{ faceImage }}" />
+        </div>
+        <div class="col col-md-1">
+            <div class="plus sign"></div>
+        </div>
+        <div class="col col-md-3">
+            <img src="data:image/jpeg;base64, {{ baseImage }}" />
+        </div>
+        <div class="col col-md-1">
+            <div class="equals sign"></div>
+        </div>
+        <div class="col col-md-3">
+            <img src="data:image/jpeg;base64, {{ resultImage }}" />
+        </div>
     </div>
-    <div class="base-image">
-        <img src="data:image/jpeg;base64, {{ baseImage }}" />
-    </div>
-</div>
-
-<div class="result-image">
-    <img src="data:image/jpeg;base64, {{ resultImage }}" />
 </div>
 {% endif %}
 
 <form class="faceswap-upload-form" action="" method="POST" enctype="multipart/form-data">
     <fieldset>
-        <legend>Image Upload</legend>
-        {{ form_widget(form) }}
+        <div class="page-header">
+            <h2>Image Upload</h2>
+        </div>
+        <div id="form">
+            <p>
+                <label for="form_face_image" class="required">Face image</label>
+                <input type="file" id="form_face_image" name="face_image" required="required" accept="images/*" class="btn btn-default" />
+            </p>
+            <p>
+                <label for="form_base_image" class="required">Base image</label>
+                <input type="file" id="form_base_image" name="base_image" required="required" accept="images/*" class="btn btn-default" />
+            </p>
+        </div>
     </fieldset>
-    <input type="submit" value="Upload" />
+    <p>
+        <input type="submit" value="Upload" class="btn btn-lg btn-primary" />
+    </p>
 </form>
 
-</body>
-</html>
+{% endblock %}

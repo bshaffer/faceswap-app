@@ -22,12 +22,12 @@ metadata:
   name: faceswap-app
   labels:
     app: faceswap
-# The faceswap app replica set ensures that at least 3
+# The faceswap app replica set ensures that at least X
 # instances of the faceswap app are running on the cluster.
 # For more info about Pods see:
 #   https://cloud.google.com/container-engine/docs/pods/
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -37,59 +37,22 @@ spec:
       containers:
       # Configuration for the app frontend container
       - name: faceswap-app
-        # Pull from local repo
-        image: faceswap-app
+        image: gcr.io/cloud-next-php/faceswap-app:v1
         # This setting makes nodes pull the docker image every time before
         # starting the pod. This is useful when debugging, but should be turned
         # off in production.
-        imagePullPolicy: Never
+        imagePullPolicy: Always
         # The faceswap process listens on port 8080 for web traffic by default.
         ports:
         - name: http-server
           containerPort: 8080
----
-# This configures the faceswap worker. The worker
-# executes the faceswap logic
-apiVersion: v1
-kind: Service
-metadata:
-  name: faceswap-worker
-  labels:
-    app: faceswap
-spec:
-  ports:
-    - port: 80
-  selector:
-    app: faceswap
-    tier: worker
-  clusterIP: None
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: faceswap-worker
-  labels:
-    app: faceswap
-# The faceswap worker replica set ensures that at X instances of the
-# faceswap worker pod are running on the cluster.
-# For more info about Pods see:
-#   https://cloud.google.com/container-engine/docs/pods/
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: faceswap
-        tier: worker
-    spec:
-      containers:
-      - name: faceswap-worker
-        image: faceswap-worker
+      - name: faceswap-app-worker
+        image: gcr.io/cloud-next-php/faceswap-app-worker:v1
         # This setting makes nodes pull the docker image every time before
         # starting the pod. This is useful when debugging, but should be turned
         # off in production.
-        imagePullPolicy: Never
+        imagePullPolicy: Always
         # The faceswap worker listens on port 8080 for web traffic by default.
         ports:
         - name: http-server
-          containerPort: 8080
+          containerPort: 8081
