@@ -22,18 +22,18 @@ def create_app():
     # Add a default root route.
     @app.route("/", methods=['POST'])
     def post():
-        image1 = request.json.get('image1', None)
-        image2 = request.json.get('image2', None)
-        if not image1 or not image2:
-            return 'Please supply the "image1" and "image2" arguments'
+        faceImage = request.json.get('faceImage', None)
+        baseImage = request.json.get('baseImage', None)
+        if not faceImage or not baseImage:
+            return 'Please supply the "faceImage" and "baseImage" arguments'
 
-        tmp1 = tempfile.NamedTemporaryFile()
-        tmp2 = tempfile.NamedTemporaryFile()
-        tmp1.write(base64.b64decode(image1))
-        tmp2.write(base64.b64decode(image2))
+        tmpFace = tempfile.NamedTemporaryFile()
+        tmpBase = tempfile.NamedTemporaryFile()
+        tmpFace.write(base64.b64decode(faceImage))
+        tmpBase.write(base64.b64decode(baseImage))
         output = tempfile.NamedTemporaryFile(suffix='.jpg')
 
-        os.system('faceswap.py %s %s %s' % (tmp1.name, tmp2.name, output.name))
+        os.system('faceswap.py %s %s %s' % (tmpFace.name, tmpBase.name, output.name))
         return base64.b64encode(output.read())
     return app
 
