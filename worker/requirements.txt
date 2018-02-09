@@ -1,2 +1,4 @@
-Flask==0.11.1
-gunicorn==19.6.0
+#Flask==0.11.1
+#gunicorn==19.6.0
+google-cloud-pubsub==0.30.1
+google-cloud-firestore==0.28.0

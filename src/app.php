@@ -11,25 +11,40 @@ $app->get('/', function (Request $request) use ($app) {
 });
 
 $app->post('/', function (Request $request) use ($app) {
+    $projectId = getenv('GCLOUD_PROJECT');
+    $documentId = create_firestore_document($projectId);
+    $pubsub = new Google\Cloud\PubSub\PubSubClient([
+        'projectId' => $projectId,
+    ]);
+    $topic = $pubsub->topic(getenv('PUBSUB_TOPIC'));
     try {
         $faceImageJpeg = convert_image_to_jpeg($request->files->get('face_image'));
         $faceImage = base64_encode(file_get_contents($faceImageJpeg));
 
-        $baseImageJpeg = convert_image_to_jpeg($request->files->get('base_image'));
-        $baseImage = base64_encode(file_get_contents($baseImageJpeg));
+        $baseImages = [];
+        foreach ($request->files->get('base_images') as $i => $image) {
+            $baseImageJpeg = convert_image_to_jpeg($image);
+            $baseImage = base64_encode(file_get_contents($baseImageJpeg));
 
-        $http = new GuzzleHttp\Client();
-        $result = $http->post('localhost:8081', [
-            'json' => [
-                'faceImage' => $faceImage,
-                'baseImage' => $baseImage,
-            ]
-        ]);
+            $topic->publish([
+                'data' => json_encode([
+                    'faceImage' => $faceImage,
+                    'baseImage' => $baseImage,
+                ]),
+                'attributes' => [
+                    'imageName' => (string) $i,
+                    'documentId' => $documentId,
+                ]
+            ]);
+
+            $baseImages[$i] = $baseImage;
+        }
 
         $twigVars = [
             'faceImage' => $faceImage,
-            'baseImage' => $baseImage,
-            'resultImage' => (string) $result->getBody(),
+            'baseImages' => $baseImages,
+            'documentId' => $documentId,
+            'cols' => ceil(sqrt(count($baseImages))),
         ];
     } catch (Exception $e) {
         $twigVars = ['error' => $e->getMessage()];

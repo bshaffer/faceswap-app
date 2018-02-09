@@ -19,3 +19,20 @@
 .col img {
   max-width:100%
 }
+
+.base-images .image-crop {
+  float:left;
+}
+
+.result-image {
+  height: 300px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.result-image .loading {
+  position:absolute;
+  top: 48%;
+  margin-left: 32%;
+  width:30%;
+}

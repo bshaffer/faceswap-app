@@ -6,24 +6,15 @@
     <div class="error">{{ error }}</div>
 {% endif %}
 
-{% if faceImage is defined and baseImage is defined and resultImage is defined %}
+{% if faceImage is defined and baseImages is defined %}
 <div class="row">
-    <div class="uploaded-images">
-        <div class="col col-md-3">
-            <img src="data:image/jpeg;base64, {{ faceImage }}" />
-        </div>
-        <div class="col col-md-1">
-            <div class="plus sign"></div>
-        </div>
-        <div class="col col-md-3">
-            <img src="data:image/jpeg;base64, {{ baseImage }}" />
-        </div>
-        <div class="col col-md-1">
-            <div class="equals sign"></div>
-        </div>
-        <div class="col col-md-3">
-            <img src="data:image/jpeg;base64, {{ resultImage }}" />
-        </div>
+    <div class="col col-md-12 result-images">
+        {% for baseImage in baseImages %}
+            <div class="col col-md-3 result-image" id="faceswap-img{{loop.index - 1}}">
+                <img src="data:image/jpeg;base64, {{ baseImage }}" style="opacity:0.5" />
+                <img src="three-dots.svg" class="loading" />
+            </div>
+        {% endfor %}
     </div>
 </div>
 {% endif %}
@@ -40,7 +31,7 @@
             </p>
             <p>
                 <label for="form_base_images" class="required">Base images</label>
-                <input type="file" id="form_base_images" name="base_image" required="required" accept="images/*" class="btn btn-default" />
+                <input type="file" id="form_base_images" name="base_images[]" required="required" accept="images/*" multiple="true" class="btn btn-default" />
             </p>
         </div>
     </fieldset>
@@ -49,4 +40,37 @@
     </p>
 </form>
 
+{% if documentId is defined %}
+<script>
+db = firebase.firestore();
+db.collection("faceswap").doc('{{ documentId }}')
+.onSnapshot(function(doc) {
+    for (var i in doc.data()) {
+        if (!document.getElementById('faceswap-image-' + i)) {
+            img = new Image();
+            img.src = 'data:image/jpeg;base64,' + doc.data()[i].e;
+            img.id = "faceswap-image-" + i;
+            div = document.getElementById('faceswap-' + i);
+            div.innerHTML = '';
+            img.onload = function() {
+              div.appendChild(img);
+            };
+        }
+    }
+});
+</script>
+{% endif %}
+
+{% endblock %}
+
+{% block styles %}
+{% if cols is defined %}
+.base-images .image-crop {
+    width: {{ 360/cols }}px;
+    height: {{ 360/cols }}px;
+}
+.base-images img {
+    width: {{ 360/cols }}px;
+}
+{% endif %}
 {% endblock %}

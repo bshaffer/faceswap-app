@@ -1,0 +1,21 @@
+FROM ubuntu:14.04
+MAINTAINER Brent Shaffer <bshafs@gmail.com>
+
+WORKDIR /app
+
+# Get dependencies
+COPY scripts /app/scripts
+RUN scripts/install_platform_deps.sh
+RUN scripts/install_opencv.sh
+RUN scripts/install_dlib.sh
+RUN scripts/download_faceswap.sh
+
+ENV FACESWAP_PREDICTOR_PATH "/usr/local/lib/faceswap/shape_predictor_68_face_landmarks.dat"
+
+# For the worker
+COPY ./worker /app
+
+RUN pip install -r requirements.txt
+
+ENTRYPOINT sh -c 'ln -s /dev/null /dev/raw1394'; python worker.py
+CMD []
