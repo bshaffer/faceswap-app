@@ -11,31 +11,33 @@ $app->get('/', function (Request $request) use ($app) {
 });
 
 $app->post('/', function (Request $request) use ($app) {
-    try {
-        $faceImageJpeg = convert_image_to_jpeg($request->files->get('face_image'));
-        $faceImage = base64_encode(file_get_contents($faceImageJpeg));
+    $faceImageJpeg = file_get_contents(convert_image_to_jpeg($request->files->get('face_image')));
+    $faceImageTemp = tempnam(sys_get_temp_dir(), 'face') . '.jpg';
+    file_put_contents($faceImageTemp, $faceImageJpeg);
 
-        $baseImageJpeg = convert_image_to_jpeg($request->files->get('base_image'));
-        $baseImage = base64_encode(file_get_contents($baseImageJpeg));
+    $baseImageJpeg = file_get_contents(convert_image_to_jpeg($request->files->get('base_image')));
+    $baseImageTemp = tempnam(sys_get_temp_dir(), 'base') . '.jpg';
+    file_put_contents($baseImageTemp, $baseImageJpeg);
 
-        $http = new GuzzleHttp\Client();
-        $result = $http->post('localhost:8081', [
-            'json' => [
-                'faceImage' => $faceImage,
-                'baseImage' => $baseImage,
-            ]
+    $return_var = null;
+    exec($cmd = sprintf(
+        'python /app/worker/faceswap.py %s %s %s',
+        $baseImageTemp,
+        $faceImageTemp,
+        $outputTemp = tempnam(sys_get_temp_dir(), 'out') . '.jpg'
+    ), $output, $return_var);
+
+    if ($return_var != 0) {
+        return $app['twig']->render('index.html.twig', [
+            'error' => 'error executing ' . $cmd . ': ' . implode('<br />', $output)
         ]);
-
-        $twigVars = [
-            'faceImage' => $faceImage,
-            'baseImage' => $baseImage,
-            'resultImage' => (string) $result->getBody(),
-        ];
-    } catch (Exception $e) {
-        $twigVars = ['error' => $e->getMessage()];
     }
 
-    return $app['twig']->render('index.html.twig', $twigVars);
+    return $app['twig']->render('index.html.twig', [
+        'faceImage' => base64_encode($faceImageJpeg),
+        'baseImage' => base64_encode($baseImageJpeg),
+        'resultImage' => base64_encode(file_get_contents($outputTemp))
+    ]);
 });
 
 return $app;

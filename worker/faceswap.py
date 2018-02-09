@@ -43,7 +43,7 @@ from `<head image>` replaced with the facial features from `<face image>`.
 
 """
 
-#import cv2
+import cv2
 import dlib
 import numpy
 import os

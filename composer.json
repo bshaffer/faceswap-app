@@ -1,10 +1,7 @@
 {
     "require": {
         "silex/silex": "~2.0",
-        "twig/twig": "^2.3",
-        "symfony/twig-bridge": "^3.1",
-        "symfony/http-foundation": "^3.1",
-        "guzzlehttp/guzzle": "^6.0"
+        "twig/twig": "^2.3"
     },
     "autoload": {
         "files": [

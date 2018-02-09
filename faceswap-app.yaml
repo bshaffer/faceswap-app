@@ -37,7 +37,7 @@ spec:
       containers:
       # Configuration for the app frontend container
       - name: faceswap-app
-        image: gcr.io/cloud-next-php/faceswap-app:v1
+        image: gcr.io/sunshine-php-2018/faceswap-app
         # This setting makes nodes pull the docker image every time before
         # starting the pod. This is useful when debugging, but should be turned
         # off in production.
@@ -46,13 +46,3 @@ spec:
         ports:
         - name: http-server
           containerPort: 8080
-      - name: faceswap-app-worker
-        image: gcr.io/cloud-next-php/faceswap-app-worker:v1
-        # This setting makes nodes pull the docker image every time before
-        # starting the pod. This is useful when debugging, but should be turned
-        # off in production.
-        imagePullPolicy: Always
-        # The faceswap worker listens on port 8080 for web traffic by default.
-        ports:
-        - name: http-server
-          containerPort: 8081
