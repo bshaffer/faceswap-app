@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: faceswap
+  name: faceswap-frontend
   labels:
     app: faceswap
     tier: frontend
@@ -37,7 +37,7 @@ spec:
       containers:
       # Configuration for the app frontend container
       - name: faceswap-frontend
-        image: gcr.io/cloud-next-php/faceswap-frontend
+        image: gcr.io/sunshine-php-2018/faceswap-frontend
         # This setting makes nodes pull the docker image every time before
         # starting the pod. This is useful when debugging, but should be turned
         # off in production.
@@ -53,55 +53,9 @@ spec:
               name: pubsub
               key: PUBSUB_TOPIC
         - name: GOOGLE_APPLICATION_CREDENTIALS
-          value: /etc/credentials/cloud-next-php.json
+          value: /etc/credentials/sunshine-php-2018.json
         - name: GCLOUD_PROJECT
-          value: cloud-next-php
-        volumeMounts:
-            # name must match the volume name below
-            - name: google-credentials
-              mountPath: /etc/credentials
-      volumes:
-        - name: google-credentials
-          secret:
-            secretName: google-credentials
-
-
----
-apiVersion: apps/v1beta1
-kind: Deployment
-metadata:
-  name: faceswap-worker
-  labels:
-    app: faceswap
-# The faceswap app replica set ensures that at least X
-# instances of the faceswap worker are running on the cluster.
-# For more info about Pods see:
-#   https://cloud.google.com/container-engine/docs/pods/
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: faceswap
-        tier: worker
-    spec:
-      containers:
-      - name: faceswap-worker
-        image: gcr.io/cloud-next-php/faceswap-worker
-        # This setting makes nodes pull the docker image every time before
-        # starting the pod. This is useful when debugging, but should be turned
-        # off in production.
-        imagePullPolicy: Always
-        env:
-        - name: PUBSUB_SUBSCRIPTION
-          valueFrom:
-            configMapKeyRef:
-              name: pubsub
-              key: PUBSUB_SUBSCRIPTION
-        - name: GOOGLE_APPLICATION_CREDENTIALS
-          value: /etc/credentials/cloud-next-php.json
-        - name: GCLOUD_PROJECT
-          value: cloud-next-php
+          value: sunshine-php-2018
         volumeMounts:
             # name must match the volume name below
             - name: google-credentials
