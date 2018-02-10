@@ -51,8 +51,8 @@ db.collection("faceswap").doc('{{ documentId }}')
             img.src = 'data:image/jpeg;base64,' + doc.data()[i].e;
             img.id = "faceswap-image-" + i;
             var div = document.getElementById('faceswap-' + i);
-            div.innerHTML = '';
             img.onload = function() {
+              div.innerHTML = '';
               div.appendChild(img);
             };
         }

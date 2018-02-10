@@ -2,6 +2,12 @@
 # and various os-level packages to allow installation of popular PHP
 # libraries. The source is on github at:
 #   https://github.com/GoogleCloudPlatform/php-docker
-FROM gcr.io/google_appengine/php
+FROM gcr.io/google_appengine/php72
 
 ENV DOCUMENT_ROOT=${APP_DIR}/web
+
+COPY composer.* /app/
+RUN composer install
+
+COPY . /app
+COPY php.ini /opt/php/lib/conf.d
