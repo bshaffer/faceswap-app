@@ -3,12 +3,18 @@ MAINTAINER Brent Shaffer <bshafs@gmail.com>
 
 WORKDIR /app
 
-# Get dependencies
-COPY scripts /app/scripts
+# Get dependencies for python faceswap
+COPY scripts/install_platform_deps.sh /app/scripts/install_platform_deps.sh
 RUN scripts/install_platform_deps.sh
+
+COPY scripts/install_opencv.sh /app/scripts/install_opencv.sh
 RUN scripts/install_opencv.sh
+
+COPY scripts/install_dlib.sh /app/scripts/install_dlib.sh
 RUN scripts/install_dlib.sh
-RUN scripts/download_faceswap.sh
+
+COPY scripts/install_models.sh /app/scripts/install_models.sh
+RUN scripts/install_models.sh
 
 ENV FACESWAP_PREDICTOR_PATH "/usr/local/lib/faceswap/shape_predictor_68_face_landmarks.dat"
 

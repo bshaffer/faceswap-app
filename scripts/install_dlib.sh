@@ -7,7 +7,7 @@ curl -L \
 
 tar xf dlib.tar.bz2
 
-mkdir dlib-19.0/python_examples/build
+mkdir -p dlib-19.0/python_examples/build
 cd dlib-19.0/python_examples/build
 
 cmake ../../tools/python
