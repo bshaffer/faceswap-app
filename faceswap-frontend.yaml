@@ -52,6 +52,11 @@ spec:
             configMapKeyRef:
               name: pubsub
               key: PUBSUB_TOPIC
+        - name: FIREBASE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: firebase-credentials
+              key: apikey
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /etc/credentials/sunshine-php-2018.json
         - name: GCLOUD_PROJECT
