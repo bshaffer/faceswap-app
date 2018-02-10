@@ -6,16 +6,17 @@ use Symfony\Component\HttpFoundation\Request;
 $app = new Silex\Application();
 $app->register(new Silex\Provider\TwigServiceProvider());
 $app['twig.path'] = [ __DIR__ . '/../views' ];
+$app['apiKey'] = getenv('FIREBASE_API_KEY');
+$app['projectId'] = getenv('GCLOUD_PROJECT');
 
 $app->get('/', function (Request $request) use ($app) {
     return $app['twig']->render('index.html.twig');
 });
 
 $app->post('/', function (Request $request) use ($app) {
-    $projectId = getenv('GCLOUD_PROJECT');
-    $documentId = create_firestore_document($projectId);
+    $documentId = create_firestore_document($app['projectId']);
     $pubsub = new PubSubClient([
-        'projectId' => $projectId,
+        'projectId' => $app['projectId'],
     ]);
     $topic = $pubsub->topic(getenv('PUBSUB_TOPIC'));
     try {

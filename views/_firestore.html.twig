@@ -3,11 +3,11 @@
 <script>
   // Initialize Firebase
   var config = {
-    apiKey: "AIzaSyDVTfifLqK5PUUOhjK8H2HARuVnO0MNT_U",
-    authDomain: "cloud-next-php.firebaseapp.com",
-    databaseURL: "https://cloud-next-php.firebaseio.com",
-    projectId: "cloud-next-php",
-    storageBucket: "cloud-next-php.appspot.com",
+    apiKey: "{{ app.apiKey }}",
+    authDomain: "{{ app.projectId }}.firebaseapp.com",
+    databaseURL: "https://{{ app.projectId }}.firebaseio.com",
+    projectId: "{{ app.projectId }}",
+    storageBucket: "{{ app.projectId }}.appspot.com",
     messagingSenderId: "746522047361"
   };
   firebase.initializeApp(config);
