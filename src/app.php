@@ -1,5 +1,6 @@
 <?php
 
+use Google\Cloud\PubSub\PubSubClient;
 use Symfony\Component\HttpFoundation\Request;
 
 $app = new Silex\Application();
@@ -13,7 +14,7 @@ $app->get('/', function (Request $request) use ($app) {
 $app->post('/', function (Request $request) use ($app) {
     $projectId = getenv('GCLOUD_PROJECT');
     $documentId = create_firestore_document($projectId);
-    $pubsub = new Google\Cloud\PubSub\PubSubClient([
+    $pubsub = new PubSubClient([
         'projectId' => $projectId,
     ]);
     $topic = $pubsub->topic(getenv('PUBSUB_TOPIC'));
