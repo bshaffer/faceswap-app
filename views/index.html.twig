@@ -47,10 +47,10 @@ db.collection("faceswap").doc('{{ documentId }}')
 .onSnapshot(function(doc) {
     for (var i in doc.data()) {
         if (!document.getElementById('faceswap-image-' + i)) {
-            img = new Image();
+            var img = new Image();
             img.src = 'data:image/jpeg;base64,' + doc.data()[i].e;
             img.id = "faceswap-image-" + i;
-            div = document.getElementById('faceswap-' + i);
+            var div = document.getElementById('faceswap-' + i);
             div.innerHTML = '';
             img.onload = function() {
               div.appendChild(img);
