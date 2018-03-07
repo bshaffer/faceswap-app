@@ -3,7 +3,8 @@
 /**
  * Convert an image to JPEG
  */
-function convert_image_to_jpeg($imagePath) {
+function convert_image_to_jpeg($imagePath)
+{
     // jpg, png, gif or bmp?
     if (false === $imgInfo = getimagesize($imagePath)) {
         throw new InvalidArgumentException('Image not found or not an image');
@@ -30,7 +31,8 @@ function convert_image_to_jpeg($imagePath) {
     return $imagePath . '.jpg';
 }
 
-function create_firestore_document($projectId) {
+function create_firestore_document($projectId)
+{
     // create authorized HTTP client
     $http = Google\Auth\CredentialsLoader::makeHttpClient(
         Google\Auth\ApplicationDefaultCredentials::getCredentials(

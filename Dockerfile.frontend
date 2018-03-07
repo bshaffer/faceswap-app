@@ -4,10 +4,13 @@
 #   https://github.com/GoogleCloudPlatform/php-docker
 FROM gcr.io/google_appengine/php72
 
+RUN apt-get install -y autoconf build-essential
+RUN pecl install opencensus-alpha
+
 ENV DOCUMENT_ROOT=${APP_DIR}/web
 
 COPY composer.* /app/
 RUN composer install
 
-COPY . /app
 COPY php.ini /opt/php/lib/conf.d
+COPY . /app

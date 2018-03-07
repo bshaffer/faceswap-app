@@ -16,12 +16,12 @@ RUN scripts/install_dlib.sh
 COPY scripts/install_models.sh /app/scripts/install_models.sh
 RUN scripts/install_models.sh
 
-ENV FACESWAP_PREDICTOR_PATH "/usr/local/lib/faceswap/shape_predictor_68_face_landmarks.dat"
+ENV FACESWAP_PREDICTOR_PATH "/etc/shape_predictor_68_face_landmarks.dat"
 
 # For the worker
-COPY ./worker /app
-
+COPY ./worker/requirements.txt /app
 RUN pip install -r requirements.txt
+COPY ./worker /app
 
 ENTRYPOINT sh -c 'ln -s /dev/null /dev/raw1394'; python worker.py
 CMD []

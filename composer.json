@@ -3,7 +3,9 @@
         "silex/silex": "~2.0",
         "twig/twig": "^2.3",
         "symfony/twig-bridge": "^3.1",
-        "google/cloud": "^0.52"
+        "opencensus/opencensus": "^0.2.1",
+        "google/cloud-trace": "^0.6.2",
+        "google/cloud-pubsub": "^1.0"
     },
     "autoload": {
         "files": [

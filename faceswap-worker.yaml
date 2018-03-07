@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: faceswap-worker
-        image: gcr.io/sunshine-php-2018/faceswap-worker
+        image: gcr.io/<PROJECT_ID>/faceswap-worker
         # This setting makes nodes pull the docker image every time before
         # starting the pod. This is useful when debugging, but should be turned
         # off in production.
@@ -31,9 +31,9 @@ spec:
               name: pubsub
               key: PUBSUB_SUBSCRIPTION
         - name: GOOGLE_APPLICATION_CREDENTIALS
-          value: /etc/credentials/sunshine-php-2018.json
+          value: /etc/credentials/<PROJECT_ID>.json
         - name: GCLOUD_PROJECT
-          value: sunshine-php-2018
+          value: <PROJECT_ID>
         volumeMounts:
             # name must match the volume name below
             - name: google-credentials
